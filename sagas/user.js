@@ -10,7 +10,6 @@ import { USER_SIGNUP_REQUEST,
          LOGIN_FAILURE,
         } from '../reducers/user';
 import axios from 'axios';
-import bcrypt from 'bcrypt-nodejs';
 
 function duplicateCheckApi(username){ 
     return axios.post('/user/usernameDuplicateCheck', {username} ); 

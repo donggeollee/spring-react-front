@@ -29,10 +29,6 @@ app.prepare().then(()=>{
         }
     }));
 
-    server.get('/hashTag/:tag',(req,res) =>{
-        return app.render(req, res, '/hashtag', {tag : req.params.tag});
-    })
-
     server.get('/user/:id', (req,res) => {
         return app.render(req, res, '/user', {id :req.params.id} );
     })

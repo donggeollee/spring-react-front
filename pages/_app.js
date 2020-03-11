@@ -1,3 +1,5 @@
+
+import React from 'react';
 import Head from 'next/head';
 import { Provider } from 'react-redux';
 import { applyMiddleware, compose, createStore} from 'redux';
@@ -11,17 +13,28 @@ import reducer from '../reducers';
 import rootSaga from '../sagas';
 
 
-const Home = ({Component, store, }) => {
+const Home = ({Component, store, pageProps }) => {
     return (
         <Provider store={store}>
             <Head>
                 <title>spring-react-vol-1</title>
             </Head>
             <AppLayout>
-                <Component style={{margin:'20px'}}/>
+                <Component {...pageProps} style={{margin:'20px'}}/>
             </AppLayout>
         </Provider> 
     )
+}
+
+Home.getInitialProps = async (context) => {
+    
+    console.log("excute getInitial Props!!!!__app.js")
+    const {ctx, Component} = context;
+    let pageProps ={};
+    if(Component.getInitialProps){
+        pageProps = await Component.getInitialProps(ctx);
+    }
+    return {pageProps}
 }
 
 const configureStore = (initialState, options)=>{

@@ -1,7 +1,5 @@
 import Login from '../components/Login';
 import { useSelector } from 'react-redux';
-import Signup from '../components/SignupComponent';
-import { useState } from 'react';
 
 const LoginSuccess =
         <div style={{border:"orange solid 5px"
@@ -11,17 +9,24 @@ const LoginSuccess =
             <h2>로그인 완료!</h2>
         </div>
 
-const Main = () => {
+const Main = ({id}) => {
 
-    const {isLoggedIn} = useSelector(state=>state.user);
-    
+    const {isLoggedIn, isLoggingIn} = useSelector(state=>state.user);
+    const loggingInComponent = (
+        <div style={{textAlign:'center'}}>
+            <h1>로그인 중...</h1>
+        </div>
+    ) 
+
     return (
         <div>
             <div style={{ marginLeft:"20%", marginRight:"20%", padding:"20px 20px"}}>
                 <h1 style={{textAlign:'center'}}>MAIN PAGE</h1>
             </div>
             <div>
-                {!isLoggedIn ? <Login/> : LoginSuccess}            
+                {!isLoggedIn 
+                ? ((isLoggingIn&&loggingInComponent) || <Login/>)  
+                : LoginSuccess}            
             </div>
         </div>
     )

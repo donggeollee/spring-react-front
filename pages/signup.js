@@ -20,7 +20,6 @@ const Signup = () => {
             <SignupComponent/>
         </div>
     )
-
 }
 
 export default Signup;
