@@ -4,16 +4,15 @@ const initialState = {
     user : {
         id : '',
         username : '',
-        password : '',
         nickname : ''
     },
     isSigningup : false ,
     signupError : false ,
     signupSuccess : false ,
     isCheckingUsername : false ,
-    usernameChecked : false,
     isLoggingIn : false,
     isLoggedIn : false,
+    authToken : ''
 }
 
 export const USER_SIGNUP_REQUEST = "user/USER_SIGNUP_REQUEST";
@@ -27,6 +26,14 @@ export const USER_USERNAME_DUPLICATE_CHECK_FAILURE = "user/USER_USERNAME_DUPLICA
 export const LOGIN_REQUEST = "user/LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "user/LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "user/LOGIN_FAILURE";
+
+export const INSERT_AUTH_TOKEN = "user/INSERT_AUTH_TOKEN";
+export const DELETE_AUTH_TOKEN = "user/DELETE_AUTH_TOKEN";
+
+export const LOAD_USER_REQUEST = "user/LOAD_USER_REQUEST";
+export const LOAD_USER_SUCCESS = "user/LOAD_USER_SUCCESS"; 
+export const LOAD_USER_FAILURE = "user/LOAD_USER_FAILURE";
+
 
 const userReducer = (state = initialState, action) => {
     switch(action.type){
@@ -83,17 +90,50 @@ const userReducer = (state = initialState, action) => {
                 isLoggedIn : true, 
                 user : {
                     ...state.user,
-                     id : action.data.loginUser.id,
-                     username : action.data.loginUser.username,
-                     password : action.data.loginUser.password,
-                     nickname : action.data.loginUser.nickname,
-                    },
+                    username : action.data.loginInfo.username,
+                    nickname : action.data.loginInfo.nickname  
+                },
+                authToken : action.data.authToken
             }
         }
         case LOGIN_FAILURE : {
             return { 
                 ...state ,
                 isLoggingIn : false, 
+            }
+        }
+        case INSERT_AUTH_TOKEN : {
+            return {
+                ...state ,
+                authToken : action.data
+            }
+        }
+        case DELETE_AUTH_TOKEN : {
+            return { 
+                ...state ,
+                authToken : ''
+            }
+        }
+        case LOAD_USER_REQUEST : {
+            return { 
+                ...state ,
+                
+            }
+        }
+        case LOAD_USER_SUCCESS : {
+            return {
+                ...state ,
+                isLoggedIn : true,
+                user : {
+                    ...state.user,
+                    username : action.data.loadedUser.principal.username,
+                },
+            }
+        }
+        case LOAD_USER_FAILURE : {
+            return { 
+                ...state ,
+                isLoggedIn : false,
             }
         }
         default : {

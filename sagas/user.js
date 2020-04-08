@@ -8,14 +8,16 @@ import { USER_SIGNUP_REQUEST,
          LOGIN_REQUEST,
          LOGIN_SUCCESS,
          LOGIN_FAILURE,
+         LOAD_USER_REQUEST,
+         LOAD_USER_SUCCESS,
+         LOAD_POST_FAILURE
         } from '../reducers/user';
 import axios from 'axios';
-import bcrypt from 'bcrypt-nodejs';
 
 function duplicateCheckApi(username){ 
     return axios.post('/user/usernameDuplicateCheck', {username} ); 
 }
- 
+
 function* usernameDuplicateCheck(action){
     try {
         const result = yield call(duplicateCheckApi, action.data);
@@ -81,7 +83,6 @@ function* signUp(action){
             type : USER_SIGNUP_FAILURE,
         })
     }
-
 }
 
 function* watchSignUp(){
@@ -89,17 +90,29 @@ function* watchSignUp(){
 }
 
 function loginApi(userLoginInfo){
-    return axios.post('/user/login',userLoginInfo);
+    const config = {
+        headers : {'authorization' : 'loginRequest'} 
+    }
+    return axios.post( '/user/auth/login',userLoginInfo, config );
 }
 
 function* login(action){
     try {
         const response = yield call(loginApi,action.data);
         console.log(response.data);
-        yield put({ 
-            type : LOGIN_SUCCESS,
-            data : response.data.data,
-        })
+
+        if (response.data.error != null ){
+            yield put({
+                type : LOGIN_FAILURE,
+            })
+        } else {
+            yield put({ 
+                type : LOGIN_SUCCESS,
+                data : response.data.data,
+            })
+            localStorage.setItem('JWT_TOKEN',response.data.data.authToken);
+        }
+
     } catch (e) {
         console.error(e);
         yield put({
@@ -112,10 +125,42 @@ function* watchLogin(){
     yield takeLatest(LOGIN_REQUEST, login);
 }
 
+function loadUserApi(JWT_TOKEN){
+    return axios.post( '/user/auth/load', JWT_TOKEN );
+}
+
+function* loadUser(action){
+    try {
+        const response = yield call(loadUserApi,action.data);
+        const result = response.data;
+        if (result.error != null ){
+            yield put({
+                type : LOAD_USER_FAILURE,
+            })
+        } else {
+            yield put({ 
+                type : LOAD_USER_SUCCESS,
+                data : result.data,
+            })
+        }
+
+    } catch (e) {
+        console.error(e);
+        yield put({
+            type : LOAD_USER_FAILURE,
+        })
+    }
+}
+
+function* watchLoadUser(){
+    yield takeLatest(LOAD_USER_REQUEST, loadUser);
+}
+
 export default function* userSaga(){ 
     yield all([
         fork(watchCheckDuplicateUsername),
         fork(watchSignUp),
         fork(watchLogin),
+        fork(watchLoadUser)
     ])
 }

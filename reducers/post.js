@@ -1,7 +1,8 @@
+
 const initialState = {
     posts : [
         {
-            postId : '10',
+            postId : '0',  
             userId : '1',
             content : '1',
             likes : [1,2],
@@ -11,6 +12,7 @@ const initialState = {
     isPosting : false, 
     isPostSuccess : false,
     isPostError : '',
+    isLoadingPost : false,
 
 }
 
@@ -18,8 +20,12 @@ export const ADD_POST_REQUEST = 'post/ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'post/ADD_POST_SUCCESS';
 export const ADD_POST_FAILURE = 'post/ADD_POST_FAILURE';
 
+export const LOAD_POST_REQUEST = 'post/LOAD_POST_REQUEST';
+export const LOAD_POST_SUCCESS = 'post/LOAD_POST_SUCCESS';
+export const LOAD_POST_FAILURE = 'post/LOAD_POST_FAILURE';
 
-const postReducer = (state=initialState, action) => {
+
+const postReducer = (state = initialState, action) => {
     switch(action.type){
         case ADD_POST_REQUEST : {
             return {
@@ -42,6 +48,26 @@ const postReducer = (state=initialState, action) => {
                 ...state,
                 isPosting : false,
                 isPostError : action.data
+            }
+        }
+        case LOAD_POST_REQUEST : {
+            return {
+                ...state,
+                isLoadingPost : true,
+            }
+        }
+        case LOAD_POST_SUCCESS : {
+            console.log("reducer");
+            console.log(action.data);
+            return {
+                ...state,
+                isLoadingPost : false,
+                posts : [ action.data.posts , ...state.posts ]
+            }
+        }
+        case LOAD_POST_FAILURE : {
+            return {
+                ...state,
             }
         }
         default : {

@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux";
+import {ADD_POST_REQUEST} from '../reducers/post';
 
 const PostForm = () => {
 
@@ -15,12 +16,17 @@ const PostForm = () => {
     const [content, handleChange] = useInput('');
     const dispatch = useDispatch();
     const { isPosting } = useSelector(state => state.post);
+    const { user } = useSelector(state => state.user);
+
 
     const handleSubmit = useCallback((e)=>{
         e.preventDefault();
         dispatch({
             type : ADD_POST_REQUEST,
-            data : content,
+            data : {
+                CONTENT : content,
+                USERNAME : user.username
+            }
         })
     },[content])
     return (
