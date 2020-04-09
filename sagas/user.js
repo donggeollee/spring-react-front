@@ -10,7 +10,7 @@ import { USER_SIGNUP_REQUEST,
          LOGIN_FAILURE,
          LOAD_USER_REQUEST,
          LOAD_USER_SUCCESS,
-         LOAD_POST_FAILURE
+         LOAD_USER_FAILURE
         } from '../reducers/user';
 import axios from 'axios';
 

@@ -11,7 +11,6 @@ const PostForm = () => {
         }
         return [val, handleInput];
     }
-
     
     const [content, handleChange] = useInput('');
     const dispatch = useDispatch();

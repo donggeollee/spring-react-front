@@ -1,10 +1,8 @@
 import PostForm from '../components/PostForm';
-import { useSelector } from 'react-redux';
 import { LOAD_POST_REQUEST } from '../reducers/post'
+import Posts from '../components/Posts';
 
 const Post = ()=>{
-
-    const { posts }  = useSelector(state => state.post);
 
     return(
         <div>
@@ -12,6 +10,7 @@ const Post = ()=>{
             <div>
                 <PostForm/>
                 <div>
+                    <Posts/>
                 </div>
                 
             </div>

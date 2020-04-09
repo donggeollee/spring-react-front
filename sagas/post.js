@@ -34,12 +34,9 @@ function loadPostApi(username){
 }
 
 function* loadPost(action){
-    
     try {
         const response = yield call(loadPostApi,action.data)
         const result = response.data;
-        console.log("saga"); 
-        console.log(result);
         if ( !result.error ){
             yield put({
                 type : LOAD_POST_SUCCESS,
