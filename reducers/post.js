@@ -7,22 +7,12 @@ const initialState = {
             content : '1',
             likes : [1,2],
             images : ["src"],
-            comments : [
-                {
-                    id : '',
-                    userId : '',
-                    reply : '',
-                    createdAt : '',
-                    updatedAt : '',
-                }
-            ],
         },
     ],
-    isPosting : false, 
-    isPostSuccess : false,
+    isPosting : false,  
+    isPostSuccess : false, 
     isPostError : '',
     isLoadingPost : false,
-
 }
 
 export const ADD_POST_REQUEST = 'post/ADD_POST_REQUEST';
@@ -32,11 +22,6 @@ export const ADD_POST_FAILURE = 'post/ADD_POST_FAILURE';
 export const LOAD_POST_REQUEST = 'post/LOAD_POST_REQUEST';
 export const LOAD_POST_SUCCESS = 'post/LOAD_POST_SUCCESS';
 export const LOAD_POST_FAILURE = 'post/LOAD_POST_FAILURE';
-
-export const CREATE_COMMENT_REQUEST = 'post/LOAD_POST_REQUEST';
-export const CREATE_COMMENT_SUCCESS = 'post/LOAD_POST_SUCCESS';
-export const CREATE_COMMENT_FAILURE = 'post/LOAD_POST_FAILURE';
-
 
 const postReducer = (state = initialState, action) => {
     switch(action.type){
@@ -76,27 +61,11 @@ const postReducer = (state = initialState, action) => {
                 posts : action.data.posts,
             }
         }
-        case LOAD_POST_FAILURE : {
+        case LOAD_POST_FAILURE : { 
             return {
                 ...state,
             }
         }
-        case CREATE_COMMENT_REQUEST : {
-            return {
-                ...state,
-            }
-        }
-        case CREATE_COMMENT_SUCCESS : {
-            return {
-                ...state,
-            }
-        }
-        case CREATE_COMMENT_FAILURE : {
-            return {
-                ...state,
-            }
-        }
-        
         default : {
             return {
                 ...state   

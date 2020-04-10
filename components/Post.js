@@ -1,55 +1,57 @@
-import Comment from './Comment';
+import Reply from './Reply';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CREATE_COMMENT_REQUEST } from '../reducers/post';
+import { CREATE_REPLY_REQUEST } from '../reducers/reply';
 
-const Post = ({key, content, comments}) => {
+const Post = ({ postId, content}) => {
 
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.user);
-
+    const {replys} = useSelector(state => state.reply);
 
     const handleInput = (initialState='') => {
-        const [value, setValue] = useState(initialState);
+        const [value, setValue] = useState(initialState); 
         const handleVal = (e)=>{
             setValue(e.target.value);
         }
         return [value, handleVal];
     }
-    const [commentValue, handleComment] = handleInput('');
+    const [replyValue, handleReply] = handleInput('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         dispatch({
-            type : CREATE_COMMENT_REQUEST,
+            type : CREATE_REPLY_REQUEST,
             data : {
-                postId : key,
-                userId : user.username,
-                reply : commentValue,
+                POST_ID : postId,
+                USER_ID : user.username,
+                REPLY : replyValue,
             }
         })
     }
     return (
         <>
-            <div key={key} style={{border:'1px solid' }}>
-                <textarea defaultValue={content} disabled/>
+            <div key={postId} style={{border:'1px solid'}}>
+                <textarea cols='30' rows='10' value={content} disabled/>
                 <div>
                     <p>
                         댓글
                     </p>
-                    <p>
+                    <div>
                         <form onSubmit={handleSubmit}>
-                            <textarea value={commentValue} onChange={handleComment} />
+                            <textarea cols='30' rows='2' value={replyValue} onChange={handleReply} />
                             <input type='submit' value='댓글제출'/>
                         </form>
-                    </p>
+                    </div>
                     <p>
-                        {/*{comments.map((post, index)=>(
-                            <Comment key={post.id} 
-                                     nickname={post.nickname}
-                                     username={post.username} 
-                                     reply={post.reply} />
-                        ))} */}
+                        {
+                        replys.filter( reply => reply.postId === postId ) 
+                              .map((reply)=>(
+                                    <Reply key={reply.id} 
+                                            replyId={reply.id}
+                                            nickname={reply.nickname}
+                                            reply={reply.reply}/>))
+                        }
                     </p>
                 </div>
             </div>

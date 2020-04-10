@@ -1,10 +1,10 @@
 import { fork, all, takeLatest, put, call,} from "redux-saga/effects";
 import {ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE, LOAD_POST_REQUEST, LOAD_POST_SUCCESS, LOAD_POST_FAILURE} from '../reducers/post';
-import Axios from "axios";
+import axios from "axios";
 
 
 function addPostApi(addPostInfo){
-    return Axios.post('/post/upload', addPostInfo);
+    return axios.post('/post/upload', addPostInfo);
 }
 
 function* addPost(action){
@@ -30,7 +30,7 @@ function* watchAddPost(){
 }
 
 function loadPostApi(username){
-    return Axios.get('/post/all');
+    return axios.get('/post/all');
 }
 
 function* loadPost(action){
@@ -58,7 +58,7 @@ function* loadPost(action){
 function* watchLoadPost(){
     yield takeLatest(LOAD_POST_REQUEST, loadPost);
 }
-
+ 
 export default function* postSaga(){
     yield all([
         fork(watchAddPost),

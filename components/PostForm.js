@@ -37,7 +37,7 @@ const PostForm = () => {
             :
             <form onSubmit={handleSubmit}>
                 <p>
-                    <textarea cols='30' rows='10'  value={content} onChange={handleChange} />
+                    <textarea cols='30' rows='10' value={content} onChange={handleChange} />
                 </p>
                 <p>
                     <button type='submit'>submit</button>

@@ -43,7 +43,7 @@ Home.getInitialProps = async (context) => {
    /*
     if( !state.user.user.username && ctx.isServer ){
         ctx.store.dispatch({
-            type : LOAD_USER_REQUEST,
+            type : LOAD_USER_REQUEST, 
         });
     }
     */
