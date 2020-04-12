@@ -1,5 +1,5 @@
 import Reply from './Reply';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CREATE_REPLY_REQUEST } from '../reducers/reply';
 
@@ -8,6 +8,11 @@ const Post = ({ postId, content}) => {
     const dispatch = useDispatch();
     const {user} = useSelector(state => state.user);
     const {replys} = useSelector(state => state.reply);
+    const resetValue = {
+        target : {
+            value : ''
+        }
+    }
 
     const handleInput = (initialState='') => {
         const [value, setValue] = useState(initialState); 
@@ -18,7 +23,7 @@ const Post = ({ postId, content}) => {
     }
     const [replyValue, handleReply] = handleInput('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = useCallback((e) => {
         e.preventDefault();
         dispatch({
             type : CREATE_REPLY_REQUEST,
@@ -28,7 +33,8 @@ const Post = ({ postId, content}) => {
                 REPLY : replyValue,
             }
         })
-    }
+        handleReply(resetValue);
+    },[replyValue, replys]);
     return (
         <>
             <div key={postId} style={{border:'1px solid'}}>
@@ -43,16 +49,17 @@ const Post = ({ postId, content}) => {
                             <input type='submit' value='댓글제출'/>
                         </form>
                     </div>
-                    <p>
+                    <div>
                         {
-                        replys.filter( reply => reply.postId === postId ) 
-                              .map((reply)=>(
-                                    <Reply key={reply.id} 
-                                            replyId={reply.id}
-                                            nickname={reply.nickname}
-                                            reply={reply.reply}/>))
+                        replys.filter( (reply) => {
+                                return reply.POST_ID === postId
+                            }).map((reply)=>(
+                                    <Reply key={reply.ID} 
+                                            replyId={reply.ID}
+                                            nickname={reply.NICKNAME}
+                                            reply={reply.REPLY}/>))
                         }
-                    </p>
+                    </div>
                 </div>
             </div>
         </>

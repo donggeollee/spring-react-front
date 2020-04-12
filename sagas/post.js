@@ -11,7 +11,6 @@ function* addPost(action){
     let res = null;
     try{
         res = yield call(addPostApi,action.data);
-        console.log(res); 
         yield put({
             type : ADD_POST_SUCCESS,
             data : res.data

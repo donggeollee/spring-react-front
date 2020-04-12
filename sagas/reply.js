@@ -1,8 +1,11 @@
 import {all, fork, takeLatest, put, call} from 'redux-saga/effects';
+import axios from 'axios';
 import {CREATE_REPLY_REQUEST,
         CREATE_REPLY_SUCCESS,
-        CREATE_REPLY_FAILURE,} from '../reducers/reply';
-import axios from 'axios';
+        CREATE_REPLY_FAILURE,
+        LOAD_REPLY_REQUEST,
+        LOAD_REPLY_FAILURE,
+        LOAD_REPLY_SUCCESS,} from '../reducers/reply';
 
 
 function createReplyApi(replyInfo){
@@ -15,17 +18,15 @@ function createReplyApi(replyInfo){
 }
 
 function* createReply(action){
-    console.log("댓글 삽입",action.data); 
     try {
         const response = yield call(createReplyApi,action.data);
         const result = response.data;
-        console.log("result : ",result); 
-        if ( result.error != null || result.data.saveCount !== 1 ){
+        if ( result.error != null ){
             yield put({
                 type : CREATE_REPLY_FAILURE,
             })
         } else {
-            yield put({ 
+            yield put({  
                 type : CREATE_REPLY_SUCCESS,
                 data : result,
             })
@@ -41,10 +42,46 @@ function* createReply(action){
  
 function* watchCreateReply(){
     yield takeLatest(CREATE_REPLY_REQUEST, createReply);
+} 
+
+function loadReplyApi(){
+    const config = {
+        authorization : '',
+    }
+    return axios.get('/reply/read/all','',config);
 }
- 
+
+function* loadReply(action){
+
+    try {
+        const response = yield call(loadReplyApi, action.data);
+        const result = response.data; 
+        if (result.error != null){  
+            yield put({
+                type : LOAD_REPLY_FAILURE
+            })
+        } else {
+            yield put({
+                type : LOAD_REPLY_SUCCESS,
+                data : result.data
+            })
+        }
+    }catch(e){
+        console.error(e)
+        put({
+            type : LOAD_REPLY_FAILURE
+        })
+    }
+}
+
+function* watchLoadReply(){
+    yield takeLatest(LOAD_REPLY_REQUEST, loadReply);
+}
+
+
 export default function* replySaga(){
     yield all([
         fork(watchCreateReply),
+        fork(watchLoadReply),
     ])
 }

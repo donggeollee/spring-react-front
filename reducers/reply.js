@@ -2,13 +2,13 @@
 const initialState = {
     replys : [
         {
-            id : '',
-            postId : '',
-            userId : '',
-            nickname : '',
-            reply : '',
-            createdAt : '',
-            updatedAt : '',
+            ID : '',
+            POST_ID : '',
+            USER_ID : '',
+            NICKNAME : '',
+            REPLY: '',
+            CREATEDAT : '',
+            UPDATEDAT : '',
         }
     ],
     loadingReplys : false,
@@ -33,7 +33,7 @@ const replyReducer = (state=initialState, action) => {
         case CREATE_REPLY_SUCCESS : {
             return {
                 ...state ,
-                replys : action.data
+                replys : [...state.replys, action.data.data.newReply[0] ]
             }
         }
         case CREATE_REPLY_FAILURE : {
@@ -51,7 +51,7 @@ const replyReducer = (state=initialState, action) => {
             return {
                 ...state ,
                 loadingReplys : false ,
-                REPLYs : action.data
+                replys : action.data.replys
             }
         }
         case LOAD_REPLY_FAILURE : {

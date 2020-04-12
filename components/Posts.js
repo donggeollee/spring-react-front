@@ -10,7 +10,7 @@ const Posts = () => {
             {
             posts.map((post,index)=>{
                 return (
-                    < Post key={post.id} 
+                    <Post  key={post.id} 
                            postId={post.id} 
                            content={post.content}  />
                 )

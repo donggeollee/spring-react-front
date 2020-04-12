@@ -11,12 +11,16 @@ const PostForm = () => {
         }
         return [val, handleInput];
     }
+    const resetEvent = {
+        target : {
+            value : ''
+        }
+    }
     
     const [content, handleChange] = useInput('');
     const dispatch = useDispatch();
     const { isPosting } = useSelector(state => state.post);
     const { user } = useSelector(state => state.user);
-
 
     const handleSubmit = useCallback((e)=>{
         e.preventDefault();
@@ -27,6 +31,7 @@ const PostForm = () => {
                 USERNAME : user.username
             }
         })
+        handleChange(resetEvent);
     },[content])
     return (
         <div>

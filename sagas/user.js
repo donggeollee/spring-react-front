@@ -72,7 +72,6 @@ function signUpApi(signUpUserInfo){
 function* signUp(action){
     try{
         const response = yield call(signUpApi, action.data);
-        console.log(response.data);
         yield put({
             type : USER_SIGNUP_SUCCESS,
             data : response.data
@@ -99,8 +98,6 @@ function loginApi(userLoginInfo){
 function* login(action){
     try {
         const response = yield call(loginApi,action.data);
-        console.log(response.data);
-
         if (response.data.error != null ){
             yield put({
                 type : LOGIN_FAILURE,
