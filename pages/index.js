@@ -1,6 +1,7 @@
 
 import Login from '../components/Login';
 import { useSelector } from 'react-redux';
+import ImageUploadForm from '../components/ImageUploadForm';
 
 const LoginSuccess =
         <div style={{border:"orange solid 5px"
@@ -10,9 +11,11 @@ const LoginSuccess =
             <h2>로그인 완료!</h2>
         </div>
 
+
+
 const Main = () => {
 
-    const {isLoggedIn} = useSelector(state=>state.user);
+    const {isLoggedIn, isLoginError} = useSelector(state=>state.user);
     
     return (
         <div>
@@ -20,7 +23,11 @@ const Main = () => {
                 <h1 style={{textAlign:'center'}}>MAIN PAGE</h1>
             </div>
             <div>
-                {!isLoggedIn ? <Login/> : LoginSuccess}            
+                { !isLoggedIn ? <Login/> : LoginSuccess}
+                { isLoginError ? alert("Check your ID or PASSWORD") : ""}            
+            </div>
+            <div>
+                <ImageUploadForm/>
             </div>
         </div>
     )

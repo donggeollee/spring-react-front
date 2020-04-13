@@ -98,6 +98,7 @@ function loginApi(userLoginInfo){
 function* login(action){
     try {
         const response = yield call(loginApi,action.data);
+        console.log(response);
         if (response.data.error != null ){
             yield put({
                 type : LOGIN_FAILURE,

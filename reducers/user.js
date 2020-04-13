@@ -12,6 +12,7 @@ const initialState = {
     isCheckingUsername : false ,
     isLoggingIn : false,
     isLoggedIn : false,
+    isLoginError : false,
     authToken : ''
 }
 
@@ -100,6 +101,7 @@ const userReducer = (state = initialState, action) => {
             return { 
                 ...state ,
                 isLoggingIn : false, 
+                isLoginError : true,
             }
         }
         case INSERT_AUTH_TOKEN : {
