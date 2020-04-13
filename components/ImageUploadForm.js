@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux";
+import { CREATE_POST_IMAGE } from '../reducers/image';
 
 
 const ImageUploadForm = () => {
