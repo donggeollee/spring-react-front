@@ -1,7 +1,14 @@
 const initialState = {
     images : [
-        
-    ]
+        {
+            id : '',
+            postId : '',
+            imageName : '',
+            fileSize : '',
+
+        }    
+    ],
+
 }
 
 export const CREATE_IMAGE_REQUEST = 'post/CREATE_IMAGE_REQUEST';
