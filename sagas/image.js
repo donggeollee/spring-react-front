@@ -1,4 +1,4 @@
-import { all, fork, takeLatest, put } from "redux-saga/effects";
+import { all, fork, takeLatest, put, call } from "redux-saga/effects";
 import axios from "axios";
 
 import { CREATE_IMAGE_REQUEST,
@@ -9,17 +9,17 @@ import { CREATE_IMAGE_REQUEST,
          DELETE_IMAGE_SUCCESS, 
          READ_IMAGE_REQUEST,
          READ_IMAGE_FAILURE, 
-         READ_IMAGE_SUCCESS, 
-                            } from "../reducers/image";
+         READ_IMAGE_SUCCESS,  } from "../reducers/image";
 
 
-function createImageApi({image}){
-    const config = {
+function createImageApi(action){
+    const config = { 
         headers : {
-            "Content-Type" : ""
+            'content-type': 'multipart/form-data'
+            //'content-type': 'application/x'
         }
     }
-    return axios.post("/image/create",image);
+    return axios.post("/image/create", {uploadFile : action.data}, config);
 }
 
 function* createImage(action){
@@ -28,18 +28,18 @@ function* createImage(action){
         const result = response.data;
         console.log("create image result : ", result);
         if ( result.error != null ){
-            put({
+            yield put({
                 type : CREATE_IMAGE_FAILURE
             })
         } else {
-            put({
+            yield put({
                 type : CREATE_IMAGE_SUCCESS,
                 data : result.data
             })
         }
     } catch(e){
         console.error(e);
-        put({
+        yield put({
             type : CREATE_IMAGE_FAILURE
         })
 
@@ -47,7 +47,7 @@ function* createImage(action){
 }
 
 function* watchCreateImage(){
-    takeLatest(CREATE_IMAGE_REQUEST, createImage);
+    yield takeLatest(CREATE_IMAGE_REQUEST, createImage);
 }
 
 
@@ -61,18 +61,18 @@ function* deleteImage(action){
         const result = response.data;
         console.log("delete image result : ", result);
         if ( result.error != null ){
-            put({
+            yield put({
                 type : DELETE_IMAGE_FAILURE
             })
         } else {
-            put({
+            yield put({
                 type : DELETE_IMAGE_SUCCESS,
                 data : result.data
             })
         }
     } catch(e){
         console.error(e);
-        put({
+        yield put({
             type : DELETE_IMAGE_FAILURE
         })
 
@@ -80,7 +80,7 @@ function* deleteImage(action){
 }
 
 function* watchDeleteImage(){
-    takeLatest(DELETE_IMAGE_REQUEST, deleteImage);
+    yield takeLatest(DELETE_IMAGE_REQUEST, deleteImage);
 }
 
 function readImageApi(action){
@@ -93,18 +93,18 @@ function* readImage(action){
         const result = response.data;
         console.log("read image result : ", result);
         if ( result.error != null ){
-            put({
+            yield put({
                 type : READ_IMAGE_FAILURE
             })
         } else {
-            put({
+            yield put({
                 type : READ_IMAGE_SUCCESS,
                 data : result.data
             })
         }
     } catch(e){
         console.error(e);
-        put({
+        yield put({
             type : READ_IMAGE_FAILURE
         })
 
@@ -112,7 +112,7 @@ function* readImage(action){
 }
 
 function* watchReadImage(){
-    takeLatest(READ_IMAGE_REQUEST, readImage);
+    yield takeLatest(READ_IMAGE_REQUEST, readImage);
 }
 
 export default function* imageSagas(){

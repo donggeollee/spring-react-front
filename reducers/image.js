@@ -5,7 +5,7 @@ const initialState = {
             postId : '',
             imageName : '',
             fileSize : '',
-
+            imageUploading : false,
         }    
     ],
 
@@ -27,7 +27,7 @@ const imageReducer = (state=initialState, action) => {
     switch(action.type){
         case CREATE_IMAGE_REQUEST : {
             return {
-                
+                ...state   
             }
         }
         case CREATE_IMAGE_SUCCESS : {
@@ -36,6 +36,36 @@ const imageReducer = (state=initialState, action) => {
             }
         }
         case CREATE_IMAGE_FAILURE : {
+            return {
+                
+            }
+        }
+        case READ_IMAGE_REQUEST : {
+            return {
+                
+            }
+        }
+        case READ_IMAGE_SUCCESS : {
+            return {
+                
+            }
+        }
+        case READ_IMAGE_FAILURE : {
+            return {
+                
+            }
+        }
+        case DELETE_IMAGE_REQUEST : {
+            return {
+                
+            }
+        }
+        case DELETE_IMAGE_SUCCESS : {
+            return {
+                
+            }
+        }
+        case DELETE_IMAGE_FAILURE : {
             return {
                 
             }

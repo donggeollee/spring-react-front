@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useDispatch } from "react-redux";
-import { CREATE_POST_IMAGE } from '../reducers/image';
+import { CREATE_IMAGE_REQUEST } from '../reducers/image';
 
 
 const ImageUploadForm = () => {
@@ -14,20 +14,31 @@ const ImageUploadForm = () => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("file",image);
-        console.log(formData);
+        formData.append("username","username");
+        formData.append("password","password");
+
+        console.log("keys");
+        for( var key in formData.keys ){
+            console.log(key);
+        }
+        console.log("values");
+        for( var value in formData.values ){
+            console.log(value);
+        }
         console.log(image);
-        
+        console.log(1111111111111); 
+        return ;
         dispatch({
-            type : CREATE_POST_IMAGE,
-            data : image
+            type : CREATE_IMAGE_REQUEST,
+            data : formData
         })
     }
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} >
                 <input type='file' onChange={handleImage}/>
-                <button type='submit'> 이미지 업로드</button>
+                <button type='submit'> 파일 업로드</button>
             </form>
         </>
     )

@@ -68,7 +68,7 @@ function* loadReply(action){
         }
     }catch(e){
         console.error(e)
-        put({
+        yield put({
             type : LOAD_REPLY_FAILURE
         })
     }
