@@ -27,6 +27,7 @@ const AppLayout = ({children}) => {
         <div style={{margin:'20px'}}>
             <div>
                 <span style={{padding:'5px'}}><Link href='/'><a>MAIN</a></Link></span>
+                <span style={{padding:'5px'}}><Link href='/board'><a>BOARD</a></Link></span>
             {isLoggedIn
             ?
             <> 

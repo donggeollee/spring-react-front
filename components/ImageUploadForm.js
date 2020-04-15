@@ -12,31 +12,27 @@ const ImageUploadForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append("file",image);
+        const fileUploadForm = document.getElementById('fileUploadForm');
+        
+        const formData = new FormData(fileUploadForm);
+        formData.append('file',image);
         formData.append("username","username");
         formData.append("password","password");
+-
+        // O
+        console.log(formData.get("file"));
+        console.log(formData.get("username"));
+        console.log(formData.get("password"));
 
-        console.log("keys");
-        for( var key in formData.keys ){
-            console.log(key);
-        }
-        console.log("values");
-        for( var value in formData.values ){
-            console.log(value);
-        }
-        console.log(image);
-        console.log(1111111111111); 
-        return ;
-        dispatch({
+        dispatch({ 
             type : CREATE_IMAGE_REQUEST,
             data : formData
         })
     }
 
     return (
-        <>
-            <form onSubmit={handleSubmit} >
+        <> 
+            <form method="post" onSubmit={handleSubmit} id="fileUploadForm" encType="multipart/form-data">
                 <input type='file' onChange={handleImage}/>
                 <button type='submit'> 파일 업로드</button>
             </form>
