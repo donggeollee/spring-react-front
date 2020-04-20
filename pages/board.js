@@ -14,9 +14,6 @@ const Board = ()=>{
             <p>
                 complex search filter +  paging Board page 
             </p>
-            
-
-
         </div>
     )
 }

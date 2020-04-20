@@ -13,13 +13,13 @@ import { CREATE_IMAGE_REQUEST,
 
 
 function createImageApi(action){
-    console.log("action.data : ", action.data.get("file"));
+    console.log("action.data : ", action.data.get("multipartFileList"));
     const config = { 
         headers : {
-            'content-type': 'multipart/form-data' 
+            'content-type': 'multipart/form-data'  
         }
     }
-    return axios.post("/image/create", {uploadFile : action.data}, config);
+    return axios.post("/image/create", action.data, config);
 }
 
 function* createImage(action){

@@ -9,7 +9,6 @@ import withReduxSaga from 'next-redux-saga';
 import AppLayout from "../components/AppLayout"
 import reducer from '../reducers';
 import rootSaga from '../sagas';
-import axios from 'axios';
 
 const Home = ({Component, store, pageProps }) => {
     return (

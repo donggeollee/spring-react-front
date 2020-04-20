@@ -13,21 +13,13 @@ const ImageUploadForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const fileUploadForm = document.getElementById('fileUploadForm');
-        
         const formData = new FormData(fileUploadForm);
-        formData.append('file',image);
-        formData.append("username","username");
-        formData.append("password","password");
+        formData.append('multipartFileList',image);
 -
-        // O
-        console.log(formData.get("file"));
-        console.log(formData.get("username"));
-        console.log(formData.get("password"));
-
         dispatch({ 
             type : CREATE_IMAGE_REQUEST,
             data : formData
-        })
+        }) 
     }
 
     return (
