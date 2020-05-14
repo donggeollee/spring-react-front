@@ -26,9 +26,6 @@ const Main = () => {
                 { !isLoggedIn ? <Login/> : LoginSuccess}
                 { isLoginError ? alert("Check your ID or PASSWORD") : ""}            
             </div>
-            <div>
-                <ImageUploadForm/>
-            </div>
         </div>
     )
 }

@@ -5,15 +5,6 @@ import { CREATE_REPLY_REQUEST } from '../reducers/reply';
 
 const Post = ({ postId, content}) => {
 
-    const dispatch = useDispatch();
-    const {user} = useSelector(state => state.user);
-    const {replys} = useSelector(state => state.reply);
-    const resetValue = {
-        target : {
-            value : ''
-        }
-    }
-
     const handleInput = (initialState='') => {
         const [value, setValue] = useState(initialState); 
         const handleVal = (e)=>{
@@ -21,7 +12,17 @@ const Post = ({ postId, content}) => {
         }
         return [value, handleVal];
     }
+
+    const dispatch = useDispatch();
+    const {user} = useSelector(state => state.user);
+    const {replys} = useSelector(state => state.reply);
     const [replyValue, handleReply] = handleInput('');
+
+    const resetValue = {
+        target : {
+            value : ''
+        }
+    }
 
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
@@ -35,6 +36,7 @@ const Post = ({ postId, content}) => {
         })
         handleReply(resetValue);
     },[replyValue, replys]);
+    
     return (
         <>
             <div key={postId} style={{border:'1px solid'}}>
